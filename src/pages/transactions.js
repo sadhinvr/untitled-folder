@@ -2,7 +2,6 @@ import Layout from "@/components/Layouts/Layout";
 import Transactions from "@/page-components/Transaction/Transactions";
 import React from "react";
 
-
 function transaction({ transactions }) {
     return (
         <Layout>
@@ -12,14 +11,18 @@ function transaction({ transactions }) {
 }
 export default transaction;
 
+const getBaseUrl = () => {
+    if (process.env.VERCEL_URL) {
+        return `https://${process.env.VERCEL_URL}`;
+    }
+    return "http://localhost:3000"; // Fallback for local development
+};
 
 export async function getServerSideProps() {
-    const baseUrl = process.env.VERCEL_URL || "http://localhost:3000";
+    const baseUrl = getBaseUrl();
+
     try {
         const res = await fetch(`${baseUrl}/transactions.json`);
-        if (!res.ok) {
-            throw new Error(`Failed to fetch: ${res.status} ${res.statusText}`);
-        }
         const data = await res.json();
         return {
             props: {
@@ -35,5 +38,3 @@ export async function getServerSideProps() {
         };
     }
 }
-
-
