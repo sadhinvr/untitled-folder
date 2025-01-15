@@ -12,6 +12,8 @@ function transaction({ transactions }) {
 export default transaction;
 
 const getBaseUrl = () => {
+    console.log(`https://${process.env.VERCEL_URL}`)
+    
     if (process.env.VERCEL_URL) {
         return `https://${process.env.VERCEL_URL}`;
     }
